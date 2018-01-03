@@ -1,5 +1,5 @@
 (defn get_cell [cells x y]
-  (-> cells (get x) (get y)))
+  (-> cells (get y) (get x)))
 
 (defn create-cells [width height]
   (loop [i 0
@@ -12,11 +12,11 @@
       :else (recur (+ i 1) j result (conj col (< (rand 2) 1)))
       )))
 
-(defn check_around [cells x y]
+(defn check_around [x y cells]
     (loop [i -1
            j -1
            result 0]
-      (println [i, j] result)
+      ;(println [i, j] result)
       (cond (> j 1)               result
             (> i 1)               (recur -1 (+ j 1) result)
             (and (= i 0) (= j 0)) (recur (+ i 1) j result)
@@ -24,8 +24,16 @@
             )))
 
 (defn next_permutation [cells rule]
-  (loop [i 0
-         j 0] cells))
+  (let [end_x (-> cells (get 0) count (- 1))
+        end_y (- (count cells) 1)]
+    (loop [i 0
+           j 0
+           result []
+           col []] 
+      (cond (> j end_y) result
+            (> i end_x) (recur 0 (+ j 1) (conj result col) [])
+            :else       (recur (+ i 1) j result (->> cells (check_around i j) (get rule) (= 1) (conj col)))
+            ))))
 
 (defn print_cells [cells]
   (loop [i 0]
@@ -36,7 +44,7 @@
 
 
 (let [cells (create-cells 10 10)
-      rule [1 1 1 1 1 1 1 1]]
+      rule [0 0 1 1 0 0 0 0 0]]
   (print_cells cells)
   (println)
-  (println (check_around (next_permutation cells rule) 1 1)))
+  (print_cells (next_permutation cells rule)))
