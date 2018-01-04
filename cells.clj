@@ -43,6 +43,13 @@
         vec
         ))))
 
+(defn times_after [cells rule n]
+  (loop [i 0
+         result cells
+         ]
+    (if (>= i n) 
+      result
+      (recur (+ i 1) (next_permutation result rule)))))
 
 (defn print_cells [cells]
   (loop [i 0]
@@ -52,10 +59,9 @@
       ))
 
 
-(println (num_to_rule 100))
 
-;(let [cells (create-cells 10 10)
-;      rule [0 0 1 1 0 0 0 0 0]]
-;  (print_cells cells)
-;  (println)
-;  (print_cells (next_permutation cells rule)))
+(let [cells (create-cells 10 10)
+      rule [0 0 1 1 0 0 0 0 0]]
+  (print_cells cells)
+  (println)
+  (print_cells (times_after cells rule 100)))
