@@ -52,18 +52,28 @@
       result
       (recur (+ i 1) (next_permutation result rule)))))
 
+
 (defn print_cells [cells]
   (loop [i 0]
     (when (< i (count cells))
       (println (map #(if % 1 0) (get cells i)))
       (recur (+ i 1)))
-      ))
+      )
+  (println))
 
+;(println (num_to_rule 12))
 
-(println (num_to_rule 12))
+(defn confirm-all []
+  (loop [num_ 0]
+    (-> (create-cells 10 10) (times_after (num_to_rule num_) 1) print_cells)
+    (if (> num_ 256)
+      nil
+     (recur (+ num_ 1)))))
 
-(let [cells (create-cells 10 10)
-      rule (num_to_rule 12)]
-  (print_cells cells)
-  (println)
-  (print_cells (times_after cells rule 100)))
+(confirm-all)
+
+;(let [cells (create-cells 10 10)
+;      rule (num_to_rule 12)]
+;  (print_cells cells)
+;  (println)
+;  (print_cells (times_after cells rule 100)))
