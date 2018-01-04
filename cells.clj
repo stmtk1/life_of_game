@@ -16,7 +16,6 @@
     (loop [i -1
            j -1
            result 0]
-      ;(println [i, j] result)
       (cond (> j 1)               result
             (> i 1)               (recur -1 (+ j 1) result)
             (and (= i 0) (= j 0)) (recur (+ i 1) j result)
@@ -35,6 +34,16 @@
             :else       (recur (+ i 1) j result (->> cells (check_around i j) (get rule) (= 1) (conj col)))
             ))))
 
+(defn num_to_rule [num_] 
+  (let [str_ (Integer/toString num_ 2)]
+    (mapv #(if (= \1 %) 1 0)
+      (-> (apply str (repeat (- 8 (count str_)) "0"))
+        (str str_)
+        char-array
+        vec
+        ))))
+
+
 (defn print_cells [cells]
   (loop [i 0]
     (when (< i (count cells))
@@ -43,8 +52,10 @@
       ))
 
 
-(let [cells (create-cells 10 10)
-      rule [0 0 1 1 0 0 0 0 0]]
-  (print_cells cells)
-  (println)
-  (print_cells (next_permutation cells rule)))
+(println (num_to_rule 100))
+
+;(let [cells (create-cells 10 10)
+;      rule [0 0 1 1 0 0 0 0 0]]
+;  (print_cells cells)
+;  (println)
+;  (print_cells (next_permutation cells rule)))
