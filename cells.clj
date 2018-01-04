@@ -34,13 +34,14 @@
             :else       (recur (+ i 1) j result (->> cells (check_around i j) (get rule) (= 1) (conj col)))
             ))))
 
-(defn num_to_rule [num_] 
+(defn num_to_rule [num_]
   (let [str_ (Integer/toString num_ 2)]
     (mapv #(if (= \1 %) 1 0)
-      (-> (apply str (repeat (- 8 (count str_)) "0"))
+      (-> (apply str (repeat (- 9 (count str_)) "0"))
         (str str_)
         char-array
         vec
+        reverse
         ))))
 
 (defn times_after [cells rule n]
@@ -59,9 +60,10 @@
       ))
 
 
+(println (num_to_rule 12))
 
 (let [cells (create-cells 10 10)
-      rule [0 0 1 1 0 0 0 0 0]]
+      rule (num_to_rule 12)]
   (print_cells cells)
   (println)
   (print_cells (times_after cells rule 100)))
