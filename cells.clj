@@ -9,7 +9,8 @@
     (cond
       (= j height) result
       (= i width) (recur 0 (+ j 1) (conj result col) [])
-      :else (recur (+ i 1) j result (conj col (< (rand 2) 1)))
+      ;:else (recur (+ i 1) j result (conj col (< (rand 2) 1)))
+      :else (recur (+ i 1) j result (conj col true))
       )))
 
 (defn check_around [x y cells]
@@ -61,7 +62,18 @@
       )
   (println))
 
-;(println (num_to_rule 12))
+(defn equal_cells [a b]
+  (let [x (-> a (get 0) count) y (count a)]
+    (loop [i 0
+          j 0]
+          (cond
+            (= j y) true
+            (= i x) (recur 0 (+ j 1))
+            (= (get_cell a i j) (get_cell b i j)) (recur (+ i 1) j)
+            :else false))))
+
+(defn is_stable [cells rule]
+  (equal_cells cells (next_permutation cells rule)))
 
 (defn confirm-all []
   (loop [num_ 0]
@@ -70,7 +82,7 @@
       nil
      (recur (+ num_ 1)))))
 
-(confirm-all)
+;(confirm-all)
 
 ;(let [cells (create-cells 10 10)
 ;      rule (num_to_rule 12)]
