@@ -46,13 +46,11 @@
         ))))
 
 (defn times_after [cells rule n]
-  (loop [i 0
-         result cells
-         ]
-    (if (>= i n) 
-      result
-      (recur (+ i 1) (next_permutation result rule)))))
-
+    (->> rule
+         (next_permutation result)
+         (recur (+ i 1))
+         (if (>= i n) result)
+         (loop [i 0 result cells])))
 
 (defn print_cells [cells]
   (loop [i 0]
@@ -82,7 +80,7 @@
       nil
      (recur (+ num_ 1)))))
 
-;(confirm-all)
+(confirm-all)
 
 ;(let [cells (create-cells 10 10)
 ;      rule (num_to_rule 12)]
