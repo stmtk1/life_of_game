@@ -37,13 +37,16 @@
 
 (defn num_to_rule [num_]
   (let [str_ (Integer/toString num_ 2)]
-    (mapv #(if (= \1 %) 1 0)
-      (-> (apply str (repeat (- 9 (count str_)) "0"))
-        (str str_)
-        char-array
-        vec
-        reverse
-        ))))
+    (as-> str_ s 
+      (count s)
+      (- 9 s)
+      (repeat s "0")
+      (apply str s)
+      (str s str_)
+      (char-array s)
+      (vec s)
+      (reverse s)
+      (mapv #(if (= \1 %) 1 0) s))))
 
 (defn times_after [cells rule n]
     (->> rule
