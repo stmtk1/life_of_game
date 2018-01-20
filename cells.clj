@@ -77,11 +77,11 @@
   (equal_cells cells (next_permutation cells rule)))
 
 (defn confirm-all []
-  (loop [num_ 0]
+  (loop [num_ 0 rule (num_to_rule num_)]
     (-> (create-cells 10 10) (times_after (num_to_rule num_) 1) print_cells)
     (if (> num_ 256)
       nil
-     (recur (+ num_ 1)))))
+     (recur (+ num_ 1) (num_to_rule (+ num_ 1))))))
 
 (confirm-all)
 
