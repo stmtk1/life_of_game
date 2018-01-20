@@ -77,11 +77,15 @@
   (equal_cells cells (next_permutation cells rule)))
 
 (defn confirm-all []
-  (loop [num_ 0 rule (num_to_rule num_)]
-    (-> (create-cells 10 10) (times_after (num_to_rule num_) 1) print_cells)
-    (if (> num_ 256)
-      nil
-     (recur (+ num_ 1) (num_to_rule (+ num_ 1))))))
+  (loop [num_ 0 
+         rule (num_to_rule num_) 
+         i 0
+         sum 0]
+    ;(-> (create-cells 10 10) (times_after (num_to_rule num_) 1) print_cells)
+    (cond 
+     (> num_ 256) nil
+     (> i 1000) (let [] (println rule " " sum) (recur (+ num_ 1) (num_to_rule num_) 0 0))
+     :else (recur num_ rule (+ 1 i) (if (is_stable (times_after (create-cells 10 10) rule 1) rule) sum (+ sum 1))))))
 
 (confirm-all)
 
