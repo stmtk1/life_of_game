@@ -76,6 +76,11 @@
 (defn is_stable [cells rule]
   (equal_cells cells (next_permutation cells rule)))
 
+(defn count_loop [cells rule]
+  (loop [states [cells] now (next_permutation cells rule)]
+    (if (some #(equal_cells % now) states) (count states) (recur (conj states now) (next_permutation now rule)))))
+;warning this function returns (count states)
+
 (defn confirm-all []
   (loop [num_ 0 
          rule (num_to_rule num_) 
@@ -84,10 +89,10 @@
     ;(-> (create-cells 10 10) (times_after (num_to_rule num_) 1) print_cells)
     (cond 
      (> num_ 256) nil
-     (> i 1000) (let [] (println rule " " sum) (recur (+ num_ 1) (num_to_rule num_) 0 0))
+     (> i 1000) (do (println rule " " sum) (recur (+ num_ 1) (num_to_rule num_) 0 0))
      :else (recur num_ rule (+ 1 i) (if (is_stable (times_after (create-cells 10 10) rule 1) rule) sum (+ sum 1))))))
 
-(confirm-all)
+;(confirm-all)
 
 ;(let [cells (create-cells 10 10)
 ;      rule (num_to_rule 12)]
