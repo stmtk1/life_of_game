@@ -9,8 +9,8 @@
     (cond
       (= j height) result
       (= i width) (recur 0 (+ j 1) (conj result col) [])
-      ;:else (recur (+ i 1) j result (conj col (< (rand 2) 1)))
-      :else (recur (+ i 1) j result (conj col true))
+      :else (recur (+ i 1) j result (conj col (< (rand 2) 1)))
+      ;:else (recur (+ i 1) j result (conj col true))
       )))
 
 (defn check_around [x y cells]
@@ -89,10 +89,10 @@
     ;(-> (create-cells 10 10) (times_after (num_to_rule num_) 1) print_cells)
     (cond 
      (> num_ 256) nil
-     (> i 1000) (do (println rule " " sum) (recur (+ num_ 1) (num_to_rule num_) 0 0))
-     :else (recur num_ rule (+ 1 i) (if (is_stable (times_after (create-cells 10 10) rule 1) rule) sum (+ sum 1))))))
+     (> i 1000) (do (println rule " " (float (/ sum 1000))) (recur (+ num_ 1) (num_to_rule num_) 0 0))
+     :else (recur num_ rule (+ 1 i) (+ (count_loop (times_after (create-cells 10 10) rule 1) rule) sum)))))
 
-;(confirm-all)
+(confirm-all)
 
 ;(let [cells (create-cells 10 10)
 ;      rule (num_to_rule 12)]
